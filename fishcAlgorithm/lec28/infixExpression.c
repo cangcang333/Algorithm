@@ -78,7 +78,7 @@ int main()
     {
         while (c >= '0' && c <= '9')
         {
-            printf("%c ", c);
+            printf("%c", c);
             scanf("%c", &c);
             if (c < '0' || c > '9')
             {
@@ -115,6 +115,7 @@ int main()
                         printf("%c ", e);
 
                     }
+				// Next line is important, try to comment
                 } while (StackLen(s) && '(' != e);
                 
                 Push(&s, c);
