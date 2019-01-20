@@ -59,6 +59,11 @@ int StackLen(sqStack s)
     return (s.top - s.base);
 }
 
+
+// Input example: 1+(2-3)*4+10/5
+// Output: 123-4*+105/+
+// Output: 1 2 3 - 4 * + 10 5 / +
+
 int main()
 {
     sqStack s;
@@ -71,8 +76,73 @@ int main()
 
     while (c != '#')
     {
+        while (c >= '0' && c <= '9')
+        {
+            printf("%c ", c);
+            scanf("%c", &c);
+            if (c < '0' || c > '9')
+            {
+                printf(" ");
+            }
+        }
+
+        if (')' == c)
+        {
+            Pop(&s, &e);
+            while (e != '(')
+            {
+                printf("%c ", e);
+                Pop(&s, &e);
+            }
+        }
+        else if ('+' == c || '-' == c)
+        {
+            if (!StackLen(s))
+            {
+                Push(&s, c);
+            }
+            else
+            {
+                do
+                {
+                    Pop(&s, &e);
+                    if ('(' == e)
+                    {
+                        Push(&s, e);
+                    }
+                    else
+                    {
+                        printf("%c ", e);
+
+                    }
+                } while (StackLen(s) && '(' != e);
+                
+                Push(&s, c);
+            }
+        }
+        else if ('*' == c || '/' == c || '(' == c)
+        {
+            Push(&s, c);
+        }
+        else if ('#' == c)
+        {
+            break;             
+        }
+        else
+        {
+            printf("\nInput error\n");
+            return -1;
+        }
+
         scanf("%c", &c);
     }
+
+    while (StackLen(s))
+    {
+        Pop(&s, &e);
+        printf("%c ", e);
+    }
+    printf("\n");
 
     return 0;
 }
